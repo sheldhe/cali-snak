@@ -17,12 +17,13 @@ const Main = () => {
       <div className="kiosk-content-wrap">
         <div className="kiosk-left-wrap">
           <div>
-            <div className="member-tag">무지개</div>
-            <img
-              className="member-level"
-              src={memberLevelImg}
-              alt="멤버 레벨"
-            />
+            <div className="member-tag">
+              <img
+                className="member-level"
+                src={memberLevelImg}
+                alt="멤버 레벨"
+              />
+            </div>
             <div className="member-name-wrap">
               <div className="hello-message">Hi, Tager!</div>
               <div className="member-name" style={{ marginBottom: '3vh' }}>
@@ -96,92 +97,68 @@ const Main = () => {
               {content === 'drink' && (
                 <div className="kiosk-item-wrap">
                   <button className="kiosk-item-container">
-                    <img
-                      className="item-img"
-                      src={gorayBab}
-                      alt="상품 이미지"
-                    />
+                    <div className="item-img-wrap soldout">
+                      <img
+                        className="item-img"
+                        src={gorayBab}
+                        alt="상품 이미지"
+                      />
+                    </div>
                     <div className="item-name">고래밥</div>
                     <div className="item-price">2,000원</div>
                   </button>
                   <button className="kiosk-item-container">
-                    <img
-                      className="item-img"
-                      src={gorayBab}
-                      alt="상품 이미지"
-                    />
-                    <div className="item-name">고래밥</div>
-                    <div className="item-price">2,000원</div>
-                  </button>{' '}
-                  <button className="kiosk-item-container">
-                    <img
-                      className="item-img"
-                      src={gorayBab}
-                      alt="상품 이미지"
-                    />
-                    <div className="item-name">고래밥</div>
-                    <div className="item-price">2,000원</div>
-                  </button>{' '}
-                  <button className="kiosk-item-container">
-                    <img
-                      className="item-img"
-                      src={gorayBab}
-                      alt="상품 이미지"
-                    />
-                    <div className="item-name">고래밥</div>
-                    <div className="item-price">2,000원</div>
-                  </button>{' '}
-                  <button className="kiosk-item-container">
-                    <img
-                      className="item-img"
-                      src={gorayBab}
-                      alt="상품 이미지"
-                    />
+                    <div className="item-img-wrap">
+                      <img
+                        className="item-img"
+                        src={gorayBab}
+                        alt="상품 이미지"
+                      />
+                    </div>
                     <div className="item-name">고래밥</div>
                     <div className="item-price">2,000원</div>
                   </button>
                   <button className="kiosk-item-container">
-                    <img
-                      className="item-img"
-                      src={gorayBab}
-                      alt="상품 이미지"
-                    />
+                    <div className="item-img-wrap">
+                      <img
+                        className="item-img"
+                        src={gorayBab}
+                        alt="상품 이미지"
+                      />
+                    </div>
                     <div className="item-name">고래밥</div>
                     <div className="item-price">2,000원</div>
                   </button>
                   <button className="kiosk-item-container">
-                    <img
-                      className="item-img"
-                      src={gorayBab}
-                      alt="상품 이미지"
-                    />
+                    <div className="item-img-wrap">
+                      <img
+                        className="item-img"
+                        src={gorayBab}
+                        alt="상품 이미지"
+                      />
+                    </div>
                     <div className="item-name">고래밥</div>
                     <div className="item-price">2,000원</div>
                   </button>
                   <button className="kiosk-item-container">
-                    <img
-                      className="item-img"
-                      src={gorayBab}
-                      alt="상품 이미지"
-                    />
+                    <div className="item-img-wrap">
+                      <img
+                        className="item-img"
+                        src={gorayBab}
+                        alt="상품 이미지"
+                      />
+                    </div>
                     <div className="item-name">고래밥</div>
                     <div className="item-price">2,000원</div>
                   </button>
                   <button className="kiosk-item-container">
-                    <img
-                      className="item-img"
-                      src={gorayBab}
-                      alt="상품 이미지"
-                    />
-                    <div className="item-name">고래밥</div>
-                    <div className="item-price">2,000원</div>
-                  </button>
-                  <button className="kiosk-item-container">
-                    <img
-                      className="item-img"
-                      src={gorayBab}
-                      alt="상품 이미지"
-                    />
+                    <div className="item-img-wrap">
+                      <img
+                        className="item-img"
+                        src={gorayBab}
+                        alt="상품 이미지"
+                      />
+                    </div>
                     <div className="item-name">고래밥</div>
                     <div className="item-price">2,000원</div>
                   </button>
@@ -194,8 +171,9 @@ const Main = () => {
                 <div className="purchase-item-container">
                   <div className="flex-container">
                     <button className="delete-item-button" />
+
                     <img
-                      className="purchase-item-image"
+                      className="purchase-item-image "
                       src={gorayBab}
                       alt="상품 이미지"
                     />

@@ -1,54 +1,57 @@
 .container-main {
-  background: url('../../assets/images/kiosk_credit_back.png') center no-repeat;
-  background-size: 100% 100%;
-  padding: 8vh 5vh;
   position: relative;
   width: 100%;
   height: 100vh;
+  padding: 8vh 5vh;
   overflow: hidden;
+  background: url('../../assets/images/kiosk_credit_back.png') center no-repeat;
+  background-size: 100% 100%;
   .kiosk-content-wrap {
-    position: relative;
-    padding-top: 8vh;
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: space-between;
+    padding-top: 8vh;
 
     .kiosk-left-wrap {
       display: flex;
       flex-direction: column;
-      background: url('../../assets/images/kiosk_credit_leftbox.png') center
-        no-repeat;
-      background-size: 100% 100%;
       width: 25%;
       height: 75vh;
       padding: 3vh 2vh;
+      background: url('../../assets/images/kiosk_credit_leftbox.png') center
+        no-repeat;
+      background-size: 100% 100%;
 
       .member-tag {
-        background: url('../../assets/images/kiosk_credit_badge_back.png')
-          center no-repeat;
-        background-size: contain;
+        position: relative;
         width: 80%;
         height: 30vh;
         margin: 0 auto;
+        background: url('../../assets/images/kiosk_credit_badge_back.png')
+          center no-repeat;
+        background-size: contain;
       }
       .member-level {
         position: absolute;
-        top: 22%;
-        left: 6%;
+        top: 50%;
+        left: 50%;
+        width: 85%;
+        transform: translate(-50%, -50%);
       }
       .member-name-wrap {
         text-align: center;
         .hello-message {
-          font-family: 'Pretendard-Medium';
-          color: white;
-          font-size: 4vh;
           margin-top: 1vh;
+          color: white;
+          font-family: 'Pretendard-Medium';
+          font-size: 4vh;
         }
 
         .member-name {
+          color: white;
           font-family: 'Pretendard-ExtraBold';
           font-size: 8vh;
-          color: white;
           letter-spacing: 2vh;
         }
       }
@@ -57,10 +60,10 @@
         .member-info {
           display: flex;
           align-items: center;
+          margin: 2vh 0;
+          color: white;
           font-family: 'Pretendard-Medium';
           font-size: 3vh;
-          color: white;
-          margin: 2vh 0;
         }
 
         .libox-img {
@@ -70,22 +73,22 @@
     }
 
     .kiosk-right-wrap {
-      background: url('../../assets/images/kiosk_credit_rightbox.png') center
-        no-repeat;
-      background-size: 100% 100%;
       width: 73%;
       height: 75vh;
       padding: 4vh 3vh;
+      background: url('../../assets/images/kiosk_credit_rightbox.png') center
+        no-repeat;
+      background-size: 100% 100%;
 
       .kiosk-button-wrap {
         display: flex;
         align-items: center;
 
         .kiosk-button {
-          font-family: 'Pretendard-Medium';
-          padding: 0.3vh 6vh;
           height: 6vh;
           margin-right: 4vh;
+          padding: 0.3vh 6vh;
+          font-family: 'Pretendard-Medium';
           font-size: 4vh;
 
           letter-spacing: 1vh;
@@ -112,40 +115,62 @@
         .kiosk-scroll-area {
           width: 60%;
           height: 58vh;
+          padding: 1vh 2vh;
           background: url('../../assets/images/kiosk_credit_right_box_sale_box.png')
             center no-repeat;
           background-size: 100% 100%;
-          padding: 1vh 2vh;
           .kiosk-item-wrap {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            overflow-y: auto;
-            padding: 2vh;
             height: 55vh;
-
+            padding: 2vh;
+            overflow-y: auto;
             .kiosk-item-container {
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              width: 25%;
+              display: inline-block;
+              width: calc(25% - 7.5px);
+              margin-bottom: 1vh;
+              margin-left: 10px;
               background: transparent;
               cursor: pointer;
-              margin-bottom: 1vh;
-              .item-img {
-                width: 80%;
+              &:nth-child(4n + 1) {
+                margin-left: 0;
               }
+              .item-img-wrap {
+                &.soldout {
+                  position: relative;
+                  &:before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.3);
+                  }
+                  &::after {
+                    content: 'SOLDOUT';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    color: #fff;
+                    font-weight: bold;
+                  }
+                }
+                .item-img {
+                  width: 100%;
+                }
+              }
+
               .item-name {
+                margin: 1vh 0 0.1vh 0;
                 font-family: 'Pretendard-Medium';
                 font-size: 2.5vh;
                 text-align: center;
-                margin: 1vh 0 0.1vh 0;
               }
 
               .item-price {
+                color: var(--orange);
                 font-family: 'Pretendard-Medium';
                 font-size: 2.3vh;
-                color: var(--orange);
               }
             }
           }
@@ -153,30 +178,34 @@
           }
         }
         .kiosk-purchase-wrap {
-          margin-left: 2vh;
           width: 38%;
           height: 58vh;
+          margin-left: 2vh;
+          padding: 2vh;
           background: url('../../assets/images/kiosk_credit_right_box_pay_box.png')
             center no-repeat;
           background-size: 100% 100%;
-          padding: 2vh;
           .purchase-scroll-area {
-            overflow-y: auto;
             height: 37vh;
+            overflow-y: auto;
             .purchase-item-container {
-              margin: 0 auto;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
               width: 90%;
+              margin: 0 auto;
               .flex-container {
                 display: flex;
                 align-items: center;
               }
+
               .purchase-item-image {
                 width: 20%;
                 margin-right: 3vh;
               }
               .purchase-item-name {
-                font-family: 'Pretendard-Medium';
                 color: gray;
+                font-family: 'Pretendard-Medium';
                 font-size: 2.3vh;
               }
               .purchase-item-price {
@@ -184,30 +213,27 @@
                 font-size: 2.3vh;
               }
               .delete-item-button {
-                background: url('../../assets/images/kiosk_credit_x_button.png')
-                  center no-repeat;
-                background-size: 100% 100%;
                 width: 3vh;
                 height: 3vh;
                 margin-right: 1vh;
+                background: url('../../assets/images/kiosk_credit_x_button.png')
+                  center no-repeat;
+                background-size: 100% 100%;
               }
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
             }
           }
           .kiosk-price {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             padding: 1.3vh 0vh;
             border-top: 2px solid var(--orange);
             border-bottom: 2px solid var(--orange);
-            font-size: 3vh;
             font-family: 'Pretendard-Medium';
+            font-size: 3vh;
             .color-price {
-              color: var(--orange);
               margin-right: 1vh;
+              color: var(--orange);
               font-weight: 700;
             }
           }
@@ -216,35 +242,35 @@
             display: flex;
             align-items: center;
             .item-num-decrease-button {
-              background: url('../../assets/images/kiosk_credit_minus_button.png');
-              background-size: 100% 100%;
               width: 3vh;
               height: 3vh;
+              background: url('../../assets/images/kiosk_credit_minus_button.png');
+              background-size: 100% 100%;
             }
             .item-num {
+              padding: 0 2vh;
               font-family: 'Pretendard-Medium';
               font-size: 2.3vh;
-              padding: 0 2vh;
               font-weight: 400;
             }
             .item-num-increase-button {
-              background: url('../../assets/images/kiosk_credit_plus_button.png');
-              background-size: 100% 100%;
               width: 3vh;
               height: 3vh;
+              background: url('../../assets/images/kiosk_credit_plus_button.png');
+              background-size: 100% 100%;
             }
           }
           .purchase-button {
+            width: 100%;
+            margin-top: 2vh;
+            padding: 1vh 5vh;
             background: url('../../assets/images/kiosk_credit_buy_button.png')
               center no-repeat;
             background-size: 100% 100%;
-            padding: 1vh 5vh;
-            margin-top: 2vh;
-            width: 100%;
             color: white;
             font-family: 'Pretendard-Medium';
-            letter-spacing: 0.2vh;
             font-size: 5vh;
+            letter-spacing: 0.2vh;
           }
         }
       }
@@ -254,13 +280,13 @@
 
 .kiosk-item-wrap::-webkit-scrollbar {
   width: 1vh;
-  background-color: white;
   border-radius: 0.5rem;
+  background-color: white;
 }
 
 .kiosk-item-wrap::-webkit-scrollbar-thumb {
-  background-color: var(--orange);
   border-radius: 0.5rem;
+  background-color: var(--orange);
 }
 
 // <Button onClick={loginAxios}
