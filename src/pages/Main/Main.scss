@@ -159,21 +159,92 @@
           background: url('../../assets/images/kiosk_credit_right_box_pay_box.png')
             center no-repeat;
           background-size: 100% 100%;
-
+          padding: 2vh;
           .purchase-scroll-area {
             overflow-y: auto;
+            height: 37vh;
             .purchase-item-container {
+              margin: 0 auto;
+              width: 90%;
+              .flex-container {
+                display: flex;
+                align-items: center;
+              }
+              .purchase-item-image {
+                width: 20%;
+                margin-right: 3vh;
+              }
+              .purchase-item-name {
+                font-family: 'Pretendard-Medium';
+                color: gray;
+                font-size: 2.3vh;
+              }
+              .purchase-item-price {
+                font-family: 'Pretendard-Medium';
+                font-size: 2.3vh;
+              }
               .delete-item-button {
-                background-image: url('../../assets/images/kiosk_credit_x_button.png')
+                background: url('../../assets/images/kiosk_credit_x_button.png')
                   center no-repeat;
-                background-size: contain;
-                width: 5vh;
-                height: 5vh;
+                background-size: 100% 100%;
+                width: 3vh;
+                height: 3vh;
+                margin-right: 1vh;
               }
               display: flex;
               justify-content: space-between;
               align-items: center;
             }
+          }
+          .kiosk-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.3vh 0vh;
+            border-top: 2px solid var(--orange);
+            border-bottom: 2px solid var(--orange);
+            font-size: 3vh;
+            font-family: 'Pretendard-Medium';
+            .color-price {
+              color: var(--orange);
+              margin-right: 1vh;
+              font-weight: 700;
+            }
+          }
+
+          .purchase-item-button-wrap {
+            display: flex;
+            align-items: center;
+            .item-num-decrease-button {
+              background: url('../../assets/images/kiosk_credit_minus_button.png');
+              background-size: 100% 100%;
+              width: 3vh;
+              height: 3vh;
+            }
+            .item-num {
+              font-family: 'Pretendard-Medium';
+              font-size: 2.3vh;
+              padding: 0 2vh;
+              font-weight: 400;
+            }
+            .item-num-increase-button {
+              background: url('../../assets/images/kiosk_credit_plus_button.png');
+              background-size: 100% 100%;
+              width: 3vh;
+              height: 3vh;
+            }
+          }
+          .purchase-button {
+            background: url('../../assets/images/kiosk_credit_buy_button.png')
+              center no-repeat;
+            background-size: 100% 100%;
+            padding: 1vh 5vh;
+            margin-top: 2vh;
+            width: 100%;
+            color: white;
+            font-family: 'Pretendard-Medium';
+            letter-spacing: 0.2vh;
+            font-size: 5vh;
           }
         }
       }

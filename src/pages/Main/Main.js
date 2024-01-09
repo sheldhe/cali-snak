@@ -192,15 +192,32 @@ const Main = () => {
             <div className="kiosk-purchase-wrap">
               <div className="purchase-scroll-area">
                 <div className="purchase-item-container">
-                  <button className="delete-item-button">아</button>
-                  <div className="purchase-item-name">뽀로로 딸기</div>{' '}
+                  <div className="flex-container">
+                    <button className="delete-item-button" />
+                    <img
+                      className="purchase-item-image"
+                      src={gorayBab}
+                      alt="상품 이미지"
+                    />
+                    <div>
+                      <div className="purchase-item-name">뽀로로 딸기</div>{' '}
+                      <div className="purchase-item-price">2000원</div>{' '}
+                    </div>
+                  </div>
                   <div className="purchase-item-button-wrap">
-                    <button className="item-num-decrease-button">-</button>
+                    <button className="item-num-decrease-button" />
                     <span className="item-num">20</span>
-                    <button className="item-num-increase-button">+</button>
+                    <button className="item-num-increase-button" />
                   </div>
                 </div>
               </div>
+              <div className="kiosk-price">
+                <div style={{ fontSize: '2.5vh' }}>총</div>
+                <div>
+                  <span className="color-price">10000</span>원
+                </div>
+              </div>
+              <button className="purchase-button">구매</button>
             </div>
           </div>
         </div>
