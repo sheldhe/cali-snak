@@ -54,16 +54,22 @@
           font-size: 8vh;
           letter-spacing: 2vh;
         }
+        .member-tag-number {
+          font-family: 'Pretendard-Medium';
+          color: white;
+          font-size: 2vh;
+          margin: 1vh 0 4vh 0;
+        }
       }
       .member-info-wrap {
-        padding: 0 8vh;
+        padding: 0 2vh;
         .member-info {
           display: flex;
           align-items: center;
           margin: 2vh 0;
           color: white;
           font-family: 'Pretendard-Medium';
-          font-size: 3vh;
+          font-size: 2.5vh;
         }
 
         .libox-img {
@@ -144,9 +150,12 @@
                     width: 100%;
                     height: 100%;
                     background: rgba(0, 0, 0, 0.3);
+                    background: url('../../assets/images/kiosk_credit_sold_out.png')
+                      center no-repeat;
+                    background-size: 100% 100%;
                   }
                   &::after {
-                    content: 'SOLDOUT';
+                    // content: 'SOLDOUT';
                     position: absolute;
                     top: 50%;
                     left: 50%;
@@ -163,14 +172,14 @@
               .item-name {
                 margin: 1vh 0 0.1vh 0;
                 font-family: 'Pretendard-Medium';
-                font-size: 2.5vh;
+                font-size: 2vh;
                 text-align: center;
               }
 
               .item-price {
                 color: var(--orange);
                 font-family: 'Pretendard-Medium';
-                font-size: 2.3vh;
+                font-size: 2vh;
               }
             }
           }
@@ -189,18 +198,26 @@
             height: 37vh;
             overflow-y: auto;
             .purchase-item-container {
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              width: 90%;
+              // display: flex;
+              // align-items: center;
+              // justify-content: space-between;
+              width: 100%;
               margin: 0 auto;
+
               .flex-container {
                 display: flex;
                 align-items: center;
+                justify-content: space-between;
+                margin: 1vh 2vh;
               }
-
+              .purchase-item-image-wrap {
+                display: flex;
+                text-align: center;
+                width: 20vh;
+              }
               .purchase-item-image {
-                width: 20%;
+                display: inline-block;
+                width: 30%;
                 margin-right: 3vh;
               }
               .purchase-item-name {
@@ -285,6 +302,17 @@
 }
 
 .kiosk-item-wrap::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+  background-color: var(--orange);
+}
+
+.purchase-scroll-area::-webkit-scrollbar {
+  width: 1vh;
+  border-radius: 0.5rem;
+  background-color: white;
+}
+
+.purchase-scroll-area::-webkit-scrollbar-thumb {
   border-radius: 0.5rem;
   background-color: var(--orange);
 }
