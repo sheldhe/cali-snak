@@ -114,3 +114,45 @@ const totalPrice = cart.reduce(
 );
 
 
+
+
+
+const handleRemoveItem = deleteIndex => {
+  // 상품 삭제 시 수량 상태 업데이트
+  const selectedItemCode = selectedItems2[deleteIndex];
+  const updatedQuantity = { ...quantity };
+  delete updatedQuantity[selectedItemCode];
+  setQuantity(updatedQuantity);
+
+  // 선택한 아이템 삭제
+  const updatedItems = [...selectedItems2];
+  updatedItems.splice(deleteIndex, 1);
+  setSelectedItems2(updatedItems);
+
+  // 선택한 아이템에 대한 인덱스 삭제
+  const updatedIndexes = matchingIndexes.filter(
+    (_, index) => index !== deleteIndex,
+  );
+  setMatchingIndexes2(updatedIndexes);
+};
+
+
+const handleItemClick = itemcode => {
+  const updatedSelectedItems = [...selectedItems];
+  const index = updatedSelectedItems.indexOf(itemcode);
+
+  if (index === -1) {
+    // Item is not in the list, add it and set quantity to 1
+    updatedSelectedItems.push(itemcode);
+    setQuantity({ ...quantity, [itemcode]: 1 });
+  } else {
+    // Item is already in the list, increase the quantity
+    const updatedQuantity = {
+      ...quantity,
+      [itemcode]: quantity[itemcode] + 1,
+    };
+    setQuantity(updatedQuantity);
+  }
+
+  setSelectedItems2(updatedSelectedItems);
+};

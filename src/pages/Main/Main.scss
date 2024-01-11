@@ -212,7 +212,7 @@
               }
               .purchase-item-image-wrap {
                 display: flex;
-                text-align: center;
+                // text-align: center;
                 width: 20vh;
               }
               .purchase-item-image {
@@ -223,11 +223,11 @@
               .purchase-item-name {
                 color: gray;
                 font-family: 'Pretendard-Medium';
-                font-size: 2.3vh;
+                font-size: 2rem;
               }
               .purchase-item-price {
                 font-family: 'Pretendard-Medium';
-                font-size: 2.3vh;
+                font-size: 2rem;
               }
               .delete-item-button {
                 width: 3vh;
