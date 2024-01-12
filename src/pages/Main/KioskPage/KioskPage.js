@@ -1,51 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import './Main.scss';
+import React, { useState, useEffect, useRef } from 'react';
+import './KioskPage.scss';
 import axios from 'axios';
-import liBoxImg from '../../assets/images/kiosk_credit_icon_in_left_box.png';
-import memberLevelImg from '../../assets/images/kiosk_credit_badge_icon.png';
+import liBoxImg from '../../../assets/images/kiosk_credit_icon_in_left_box.png';
+import memberLevelImg from '../../../assets/images/kiosk_credit_badge_icon.png';
 
-const Main = () => {
+const KioskPage = ({ setStep, allItemsData }) => {
   const [content, setContent] = useState('drink');
   //전체 상품 데이터를 저장한다.
-  const [allItemsData, setAllItemsData] = useState(null);
   //선택된 상품의 itemcode를 저장한다.
   const [selectedItems2, setSelectedItems2] = useState([]);
   const [matchingIndexes2, setMatchingIndexes2] = useState([]);
   const [quantity, setQuantity] = useState([]);
+  const [timer, setTimer] = useState(30000);
+  const [numErrorVisible, setNumErrorVisible] = useState(false);
+  const [purchaseModalVisible, setPurchaseModalVisible] = useState(false);
+
+  console.log(allItemsData, 'allItemsData');
+
+  const modalBackground = useRef();
 
   // 화면 구분 : 음료수, 과자, 커피
   const handleClickButton = name => {
     setContent(name);
   };
-  // const urls = [`http://192.168.0.11:28095/creditsale/sell/request`];
-  const urls = [`data/data.json`];
-
-  const fetchDataFromUrls = async () => {
-    for (let i = 0; i < urls.length; i++) {
-      try {
-        const response = await axios.get(urls[i]);
-        const responseData = response?.data;
-        const responseStatus = responseData?.status;
-        const responseLength = responseData?.length;
-        const responseTitle = responseData?.title;
-
-        if (i === 0) {
-          console.log(responseData);
-        }
-        if (responseData !== undefined) {
-          if (responseTitle === 'userinfo') {
-            setAllItemsData(responseData);
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    }
-  };
-
+  //처음 타이머를 120초로 설정
+  //이벤트 발생시에만 타이머를 줄인다.
   useEffect(() => {
-    fetchDataFromUrls();
-  }, []);
+    // if (selectedItems2) {
+    setTimer(300000);
+    // }
+    const intervalId = setInterval(() => {
+      setTimer(prevTimer => {
+        if (prevTimer > 0) {
+          return prevTimer - 1;
+        } else {
+          console.log('타이머 끝났어요!');
+          setStep('readypage');
+          clearInterval(intervalId);
+          return 0;
+        }
+      });
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [selectedItems2, content, quantity]);
+
+  const urls = [`http://192.168.0.11:28095/creditsale/sell/request`];
+  // // const urls = [`data/data.json`];
 
   // 1. 구매하고 싶은 아이템을 클릭한다.
   // 2. itemnumber를 찾아 index를 구한다.
@@ -85,15 +88,15 @@ const Main = () => {
   //matchingData로 map을 돌림
 
   const findSameIndexes = (selectedItems, allItemsData) => {
-    return selectedItems?.map(itemNumber => {
-      return allItemsData?.data[0]?.item.itemnumber.indexOf(itemNumber);
+    return selectedItems?.map(selecteditem => {
+      return allItemsData?.data[0]?.item.itemnumber.indexOf(selecteditem);
     });
   };
 
   const matchingIndexes = findSameIndexes(selectedItems2, allItemsData);
 
   console.log('matchingIndexes', matchingIndexes);
-  console.log('selecteddata2', selectedItems2);
+  console.log('selectedItems2', selectedItems2);
 
   //선택할때마다 index 같은 것 추가하기
   useEffect(() => {
@@ -120,31 +123,40 @@ const Main = () => {
     }
   };
 
-  //증가하는 것도 마찬가지로 같은 방법으로 한다.
+  // 증가하는 것도 마찬가지로 같은 방법으로 한다.
+  // 아이템이랑 인덱스 값 찾는, matchingindexex로 map을 돌린다. [3,5,7,1...]
+  // selectedItems2
+  // ㄴ 클릭한 순서대로 저장되니까 ['0004','0005','0006','0007'] i번째로 가져옴
+  // 그 index의 quantity를 1 올려준다.
+
   const handleIncreaseQuantity = index => {
+    //index는 0,1,2로 들어온다.
     const selectedItemCode = selectedItems2[index];
     const currentQuantity = quantity[selectedItemCode] || 0;
+    const indexNum = matchingIndexes2[index];
+    const remainQuantity = Number(
+      allItemsData?.data[0]?.item.itemstock[indexNum],
+    );
+    // console.log(matchingIndexes2[index], '남은 개수!!!!', remainQuantity);
     const updatedQuantity = {
       ...quantity,
       [selectedItemCode]: currentQuantity + 1,
     };
-    setQuantity(updatedQuantity);
+    if (remainQuantity <= currentQuantity) {
+      setNumErrorVisible(true);
+      console.log('모달 보여요');
+      // setQuantity(remainQuantity);
+    } else {
+      setQuantity(updatedQuantity);
+    }
   };
 
-  // const handleDelete = itemcode => {
-  //   let copy = [...matchingIndexes2];
-  //   copy.splice(itemcode, 1);
-  //   return copy;
-  // };
-
-  const handleDelete = itemcode => {
-    // 선택된 아이템을 식별하는 방법은 이미 selectedItems2 배열에 있습니다.
-    // 해당 아이템을 찾아서 삭제합니다.
+  //아이템 코드인 ['0004','0005'] 이렇게 되어 있는데
+  const handleDelete = clickitemcode => {
+    //클릭한 것 제외한 새로운 배열을 만든다.
     const updatedSelectedItems = selectedItems2.filter(
-      code => code !== itemcode,
+      code => code !== clickitemcode,
     );
-
-    // 선택된 아이템 배열을 업데이트합니다.
     setSelectedItems2(updatedSelectedItems);
   };
 
@@ -208,15 +220,24 @@ const Main = () => {
     }
   };
 
+  // setTimeout(() => {
+  //   setStep('readypage');
+  //   setErrorModalVisible2(false);
+  //   setErrorModalVisible(false);
+  // }, 5000);
+
   //숫자 3자리씩 끊어 ,처리 해주기
   const option = {
     maximumFractionDigits: 4,
   };
   const digitNumber = calculateTotalPrice().toLocaleString('ko-KR', option);
 
+  useEffect(() => {}, []);
+
   return (
     <div className="container-main">
       {' '}
+      <div className="timer">남은 시간 : {timer}초</div>
       <div className="kiosk-content-wrap">
         <div className="kiosk-left-wrap">
           <div>
@@ -555,7 +576,8 @@ const Main = () => {
               </div>
               <button
                 className="purchase-button"
-                onClick={() => purchaseFetchUrl()}
+                onClick={() => setPurchaseModalVisible(true)}
+                // onClick={() => purchaseFetchUrl()}
               >
                 구매
               </button>
@@ -563,8 +585,81 @@ const Main = () => {
           </div>
         </div>
       </div>
+      {numErrorVisible && (
+        <div className="modal-container">
+          <div
+            className="num-errormodal-wrap"
+            ref={modalBackground}
+            onClick={e => {
+              if (e.target === modalBackground.current) {
+                setNumErrorVisible(false);
+              }
+            }}
+          >
+            <button
+              className="num-errormodal-close-button"
+              onClick={setNumErrorVisible(false)}
+            >
+              닫기
+            </button>
+          </div>
+        </div>
+      )}
+      {purchaseModalVisible && (
+        <div className="purchase-result-modal-container">
+          <div className="purchase-modal-wrap">
+            <div className="purchase-title">
+              <span>구매할 목록</span>
+              <button onClick={() => setPurchaseModalVisible(false)}>x</button>
+            </div>
+            <div className="purchase-scroll-area">
+              <ul className="purchase-item-container">
+                {matchingIndexes.map((data, i) => (
+                  <li className="flex-container" key={i}>
+                    <div className="purchase-item-image-wrap">
+                      <img
+                        className="purchase-item-image"
+                        src={`images/item/item${String(selectedItems2[i])}.jpg`}
+                        alt="상품 이미지"
+                      />
+                      <div>
+                        <div className="purchase-item-name">
+                          {' '}
+                          {allItemsData?.data[0]?.item.itemname[Number(data)]}
+                        </div>{' '}
+                        <div className="purchase-item-price">
+                          {' '}
+                          {allItemsData?.data[0]?.item.itemprice[Number(data)]}
+                          원
+                        </div>{' '}
+                      </div>
+                    </div>
+                    <div className="purchase-item-button-wrap">
+                      <span className="item-num">
+                        {quantity[selectedItems2[i]] || 0}개
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="kiosk-price">
+              <div style={{ fontSize: '2.5vh', color: 'black' }}>총</div>
+              <div style={{ color: 'black' }}>
+                <span className="color-price">{digitNumber}</span>원
+              </div>
+            </div>
+            <button
+              className="purchase-button"
+              onClick={() => purchaseFetchUrl()}
+            >
+              구매하기
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default Main;
+export default KioskPage;
