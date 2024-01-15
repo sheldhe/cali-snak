@@ -97,6 +97,7 @@
       .kiosk-button-wrap {
         display: flex;
         align-items: center;
+        justify-content: space-between;
 
         .kiosk-button {
           height: 6vh;
@@ -104,7 +105,6 @@
           padding: 0.3vh 6vh;
           font-family: 'Pretendard-Medium';
           font-size: 4vh;
-
           letter-spacing: 1vh;
           text-align: center;
           &.on {
@@ -120,12 +120,41 @@
             background-size: 100% 100%;
           }
         }
+
+        .quantity-button {
+          width: 6vh;
+          height: 6vh;
+          &.on {
+            background: url('../../assets/images/QuantityControl/kiosk_credit_list_bottom_on.png')
+              center no-repeat;
+            background-size: 100% 100%;
+            color: white;
+          }
+
+          &.off {
+            background: url('../../assets/images/QuantityControl/kiosk_credit_list_bottom_off.png')
+              center no-repeat;
+            background-size: 100% 100%;
+          }
+        }
+
+        .quantity-close-button {
+          line-height: 6vh;
+          font-size: 4vh;
+          padding: 0 1vh;
+          border-radius: 0.5vh;
+          color: var(--orange);
+          font-weight: 700;
+          margin-left: 0.5vh;
+        }
       }
 
       .kiosk-content {
+        position: relative;
         display: flex;
         align-items: center;
         margin-top: 3.5vh;
+
         .kiosk-scroll-area {
           width: 60%;
           height: 58vh;

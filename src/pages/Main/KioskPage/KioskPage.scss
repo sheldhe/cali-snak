@@ -63,9 +63,6 @@
     overflow-y: auto;
 
     .purchase-item-container {
-      // display: flex;
-      // align-items: center;
-      // justify-content: space-between;
       width: 100%;
       margin: 0 auto;
 
@@ -224,4 +221,21 @@
   font-weight: 700;
   color: white;
   background-color: var(--orange);
+}
+
+.purchase-finish-wrap {
+  width: 80vh;
+  height: 50vh;
+  font-family: 'Pretendard-Medium';
+  color: black;
+  font-size: 6vh;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 55%;
+  right: 10%;
+  transform: translate(-50%, -50%);
+  background-color: white;
 }

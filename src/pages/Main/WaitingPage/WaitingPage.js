@@ -4,10 +4,10 @@ import './WaitingPage.scss';
 import axios from 'axios';
 import WaitingPageAdmin from '../../../assets/images/ReadyPage/kiosk_credit_main_admin_bottom.png';
 
-const WaitingPage = ({ isUserLoggedIn }) => {
+const WaitingPage = () => {
   return (
     <div className="container-main waiting">
-      <Link to={isUserLoggedIn ? 'admin' : 'login'}>
+      <Link to="login">
         <img
           className="admin-page-logo"
           src={WaitingPageAdmin}

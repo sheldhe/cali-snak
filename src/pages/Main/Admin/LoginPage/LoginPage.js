@@ -29,7 +29,7 @@ const Login = () => {
         if (data.status === 'success' && data.data[0].result === 'true') {
           console.log('로그인 성공!');
           dispatch(login({ username: userValue.username }));
-          navigate('/');
+          navigate('/admin');
         } else {
           console.log('실패');
           setLoginAlert('아이디 / 비밀번호를 다시 확인해주세요.');
