@@ -9,6 +9,7 @@ import WaitingPage from '../Main/WaitingPage/WaitingPage';
 const Main = () => {
   const [step, setStep] = useState('readypage');
   const [allItemsData, setAllItemsData] = useState(null);
+  const [norentalModal, setNoRentalModal] = useState(false);
 
   console.log(step, '현재 화면 페이지');
 
@@ -30,10 +31,15 @@ const Main = () => {
             if (responseTitle === 'userinfo') {
               setStep('kioskpage');
               setAllItemsData(responseData);
+            } else if (responseTitle === 'norentalid') {
+              setNoRentalModal(true);
+              setTimeout(() => {
+                setNoRentalModal(false);
+              }, 3000);
             }
           }
         } catch (error) {
-          console.error('Error fetching data:', error);
+          console.error('Error fetching dajta:', error);
         }
       }
     };
@@ -47,6 +53,15 @@ const Main = () => {
       {step === 'readypage' && <WaitingPage />}
       {step === 'kioskpage' && (
         <KioskPage setStep={setStep} allItemsData={allItemsData} />
+      )}
+      {norentalModal && (
+        <div className="modal-container">
+          <div className="purchase-result-modal-container">
+            <div className="purchase-finish-wrap">
+              등록되지 않은 태그입니다.
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

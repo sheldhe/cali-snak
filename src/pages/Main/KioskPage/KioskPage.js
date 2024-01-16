@@ -6,6 +6,7 @@ import liBoxImg from '../../../assets/images/kiosk_credit_icon_in_left_box.png';
 import memberLevelImg from '../../../assets/images/kiosk_credit_badge_icon.png';
 import KioskLeft from './KioskLeft/KioskLeft';
 import QuantityControl from './KioskRight/QuantityControl/QuantityControl';
+import homeImg from './../../../assets/images/home.png';
 
 const KioskPage = ({ setStep, allItemsData }) => {
   const [content, setContent] = useState('drink');
@@ -98,7 +99,6 @@ const KioskPage = ({ setStep, allItemsData }) => {
       return allItemsData?.data[0]?.item.itemnumber.indexOf(selecteditem);
     });
   };
-
   const matchingIndexes = findSameIndexes(selectedItems2, allItemsData);
 
   console.log('matchingIndexes', matchingIndexes);
@@ -203,15 +203,10 @@ const KioskPage = ({ setStep, allItemsData }) => {
   };
 
   console.log(sendArr3(quantity));
-  console.log(makePurchaseUrlArr(quantityArr));
+  console.log('makePurchaseUrlArr', makePurchaseUrlArr(quantityArr));
 
   //구매 요청
   const purchaseUrl = makePurchaseUrlArr(quantityArr);
-  const purchaseUrls = [
-    makePurchaseUrlArr(quantityArr),
-    'http://192.168.0.11:28095/creditsale/wait',
-  ];
-
   const purchaseEnd = () => {
     purchaseFetchUrl();
     setPurchaseModalVisible(false);
@@ -225,7 +220,7 @@ const KioskPage = ({ setStep, allItemsData }) => {
   const purchaseFetchUrl = async () => {
     for (let i = 0; i < urls.length; i++) {
       try {
-        const response = await axios.get(purchaseUrls);
+        const response = await axios.get(purchaseUrl);
         const responseData = response?.data;
         const responseStatus = responseData?.status;
         const responseLength = responseData?.length;
@@ -249,9 +244,30 @@ const KioskPage = ({ setStep, allItemsData }) => {
   };
   const digitNumber = calculateTotalPrice().toLocaleString('ko-KR', option);
 
+  const waitUrl = `http://192.168.0.11:28095/creditsale/wait`;
+  const waitFetchUrl = async () => {
+    for (let i = 0; i < urls.length; i++) {
+      try {
+        const response = await axios.get(waitUrl);
+        const responseData = response?.data;
+        const responseStatus = responseData?.status;
+        const responseLength = responseData?.length;
+        const responseTitle = responseData?.title;
+        setStep('readypage');
+        if (i === 0) {
+          console.log('구매1', responseData);
+        } else if (i === 1) {
+          console.log('구매2', responseData);
+          console.log('구매모달 닫기 완료');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+  };
+
   return (
     <div className="container-main">
-      {' '}
       <div className="timer">남은 시간 : {timer}초</div>
       <div className="kiosk-content-wrap">
         <KioskLeft allItemsData={allItemsData} />
@@ -303,11 +319,11 @@ const KioskPage = ({ setStep, allItemsData }) => {
             </div>
             <div>
               <button
-                className={
-                  content === 'quantitycontrol'
-                    ? 'quantity-button on'
-                    : 'quantity-button off'
-                }
+                className="quantity-button off"
+                style={{
+                  display:
+                    content === 'quantitycontrol' ? 'none' : 'inline-block',
+                }}
                 onClick={() => {
                   handleClickButton('quantitycontrol');
                 }}
@@ -324,18 +340,11 @@ const KioskPage = ({ setStep, allItemsData }) => {
               >
                 X
               </button>
+              <button className="buttonhome" onClick={() => waitFetchUrl()} />
             </div>
           </div>
           {content === 'quantitycontrol' && (
-            <QuantityControl />
-            // <div className="kiosk-content">
-            //   <div className="quantity-content">
-            //     <div className="quantity-title-wrap">
-            //       <div>시간 </div> <div>품명 </div> <div>이름</div>{' '}
-            //       <div>수량</div>{' '}
-            //     </div>
-            //   </div>
-            // </div>
+            <QuantityControl allItemsData={allItemsData} />
           )}
           {content !== 'quantitycontrol' && (
             <div className="kiosk-content">

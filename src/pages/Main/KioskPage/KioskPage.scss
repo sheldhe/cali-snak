@@ -239,3 +239,14 @@
   transform: translate(-50%, -50%);
   background-color: white;
 }
+
+.buttonhome {
+  cursor: pointer;
+  width: 6vh;
+  height: 6vh;
+  position: absolute;
+  top: 15%;
+  right: 5%;
+  background: url('../../../assets/images/home.png') no-repeat center;
+  background-size: contain;
+}

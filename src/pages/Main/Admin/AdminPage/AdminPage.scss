@@ -1,13 +1,158 @@
-.container-admin {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 0 2vh;
+.admin-content {
+  background-image: url('../../../../assets/images/kiosk_credit_rightbox.png');
+  background-size: 100% 100%;
+  margin-top: 10vh;
   width: 100%;
-  height: 100%;
-  font-size: 10vh;
+  height: 75vh;
+  padding: 5vh 0;
+
+  .admin-inner-all-wrap {
+    position: relative;
+    background-image: url('../../../../assets/images/AdminPage/kiosk_credit_admin_box_back.png');
+    background-size: 100% 100%;
+    width: 95%;
+    height: 65vh;
+    margin: 0 auto;
+    padding: 2vh 3vh;
+
+    .admin-inner-wrap {
+      .admin-title-wrap {
+        display: flex;
+        font-family: 'Pretendard-Medium';
+        font-size: 2vh;
+        padding-bottom: 1vh;
+        color: black;
+
+        .admin-title {
+          width: 50%;
+        }
+
+        .admin-item {
+          font-weight: bold;
+          display: inline-block;
+          text-align: center;
+          width: 30%;
+          &.hour {
+            width: 20%;
+            padding-left: 2vh;
+          }
+
+          &.name {
+            width: 35%;
+            padding-left: 9vh;
+          }
+
+          &.num {
+            padding-left: 5vh;
+          }
+
+          &.button {
+            color: transparent;
+            // width: 20%;
+          }
+        }
+      }
+
+      .admin-content-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        font-family: 'Pretendard-Medium';
+        font-size: 2vh;
+        width: 100%;
+        height: 50vh;
+        margin: 0 auto;
+        overflow-y: auto;
+
+        .admininfo-list {
+          width: 48%;
+          border-top: 1px solid gray;
+          padding: 1vh 0;
+          margin: 0 1vh;
+        }
+      }
+
+      .admininfo-item {
+        display: inline-block;
+        text-align: center;
+        &.hour {
+          width: 30%;
+        }
+
+        &.name {
+          width: 30%;
+        }
+
+        &.num {
+          display: inline-block;
+          width: 40%;
+        }
+
+        &.button {
+          text-align: right;
+          width: 20%;
+        }
+
+        .admininfo-button {
+          &.increase {
+            background-image: url('../../../../assets/images/kiosk_credit_plus_button.png');
+            background-size: 100% 100%;
+            width: 2vh;
+            height: 2vh;
+          }
+
+          &.decrease {
+            background-image: url('../../../../assets/images/kiosk_credit_minus_button.png');
+            background-size: 100% 100%;
+            width: 2vh;
+            height: 2vh;
+          }
+        }
+      }
+
+      .num-button-input {
+        text-align: center;
+        width: 25%;
+        margin: 0 0.5vh;
+      }
+
+      .admininfo-list {
+        width: 50%;
+      }
+
+      .save-button {
+        position: absolute;
+        bottom: 5%;
+        right: 9%;
+        width: 20vh;
+        height: 5vh;
+        background-image: url('../../../../assets/images/AdminPage/kiosk_credit_save_box.png');
+        background-size: 100% 100%;
+        color: transparent;
+        font-size: 5vh;
+        margin-top: 1vh;
+      }
+    }
+  }
+}
+
+.admin-content-wrap::-webkit-scrollbar {
+  width: 1vh;
+  border-radius: 0.5rem;
+  background-color: white;
+}
+
+.admin-content-wrap::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+  background-color: var(--orange);
+}
+
+.buttonhome-admin {
+  cursor: pointer;
+  width: 6vh;
+  height: 6vh;
+  position: absolute;
+  top: 6%;
+  right: 3%;
+  background: url('../../../../assets/images/home.png') no-repeat center;
+  background-size: contain;
 }
