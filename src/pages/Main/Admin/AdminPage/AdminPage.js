@@ -14,9 +14,9 @@ const AdminPage = () => {
   const [modifyModal, setModifyModal] = useState(false);
   const [modifyFailModal, setModifyFailModal] = useState(false);
 
-  const urls = [`http://192.168.0.11:28095/creditsale/stock/request`];
+  // const urls = [`http://192.168.0.11:28095/creditsale/stock/request`];
   // admin id pw admin, 91658867
-  // const urls = ['data/stock.json'];
+  const urls = ['data/stock.json'];
 
   //'저장'을 눌렀을 때 개수가 바뀐 아이템과 그 개수를 파라미터로 붙여 요청해야한다.(saveStockFetchUrl 부분)
   //
