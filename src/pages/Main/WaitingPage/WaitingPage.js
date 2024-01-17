@@ -7,7 +7,7 @@ import WaitingPageAdmin from '../../../assets/images/ReadyPage/kiosk_credit_main
 const WaitingPage = () => {
   return (
     <div className="container-main waiting">
-      <Link to="login">
+      <Link to="admin">
         <img
           className="admin-page-logo"
           src={WaitingPageAdmin}
