@@ -100,12 +100,12 @@
         justify-content: space-between;
 
         .kiosk-button {
-          height: 6vh;
-          margin-right: 4vh;
+          height: 5vh;
+          margin-right: 2vh;
           padding: 0.3vh 6vh;
           font-family: 'Pretendard-Medium';
-          font-size: 4vh;
-          letter-spacing: 1vh;
+          font-size: 3vh;
+          letter-spacing: 0.4vh;
           text-align: center;
           &.on {
             background: url('../../assets/images/kiosk_credit_buy_button.png')
@@ -122,8 +122,8 @@
         }
 
         .quantity-button {
-          width: 6vh;
-          height: 6vh;
+          width: 5vh;
+          height: 5vh;
           &.on {
             background: url('../../assets/images/QuantityControl/kiosk_credit_list_bottom_on.png')
               center no-repeat;
@@ -134,16 +134,19 @@
           &.off {
             background: url('../../assets/images/QuantityControl/kiosk_credit_list_bottom_off.png')
               center no-repeat;
-            background-size: 100% 100%;
+            background-size: contain;
           }
         }
 
         .quantity-close-button {
-          line-height: 6vh;
+          background: url('../../assets/images/Modal/kiosk_credit_X_bottom.png')
+            center no-repeat;
+          background-size: 100% 100%;
+          line-height: 5vh;
           font-size: 4vh;
           padding: 0 1vh;
           border-radius: 0.5vh;
-          color: var(--orange);
+          color: transparent;
           font-weight: 700;
           margin-left: 0.5vh;
         }

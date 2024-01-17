@@ -616,7 +616,7 @@ const KioskPage = ({ setStep, allItemsData }) => {
         </div>
       </div>
       {numErrorVisible && (
-        <div className="modal-container">
+        <div className="modal-container ">
           <div
             className="num-errormodal-wrap"
             ref={modalBackground}
@@ -649,7 +649,10 @@ const KioskPage = ({ setStep, allItemsData }) => {
                 }}
               >
                 <span>구매할 목록</span>
-                <button onClick={() => setPurchaseModalVisible(false)}>
+                <button
+                  className="purchase-finish-modal-close-button"
+                  onClick={() => setPurchaseModalVisible(false)}
+                >
                   x
                 </button>
               </div>
@@ -708,7 +711,7 @@ const KioskPage = ({ setStep, allItemsData }) => {
         </div>
       )}
       {purchaseFinishVisble && (
-        <div className="modal-container">
+        <div className="modal-container modify-success">
           <div className="purchase-result-modal-container">
             <div className="purchase-finish-wrap">구매가 완료되었습니다.</div>
           </div>

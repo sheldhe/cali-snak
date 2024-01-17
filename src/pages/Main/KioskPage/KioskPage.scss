@@ -8,6 +8,18 @@
   justify-content: center;
   align-items: center;
   background: rgba(40, 40, 40, 0.9);
+
+  &.modify-success {
+    background: url('../../../assets/images/Modal/kiosk_credit_modal_save.png')
+      no-repeat center;
+    background-size: 100% 100%;
+  }
+
+  &.modify-fail {
+    background: url('../../../assets/images/Modal/kiosk_credit_modal_normal_processing.png')
+      no-repeat center;
+    background-size: 100% 100%;
+  }
 }
 
 .num-errormodal-wrap {
@@ -242,11 +254,21 @@
 
 .buttonhome {
   cursor: pointer;
-  width: 6vh;
-  height: 6vh;
+  width: 5vh;
+  height: 5vh;
   position: absolute;
-  top: 15%;
-  right: 5%;
-  background: url('../../../assets/images/home.png') no-repeat center;
+  top: 14.7%;
+  right: 4.8%;
+  background: url('../../../assets/images/Modal/kiosk_credit_home_bottom.png')
+    no-repeat center;
   background-size: contain;
+}
+
+.purchase-finish-modal-close-button {
+  background: url('../../../assets/images/kiosk_credit_x_button.png') center
+    no-repeat;
+  background-size: 100% 100%;
+  color: transparent;
+  line-height: 3.5vh;
+  width: 3.5vh;
 }

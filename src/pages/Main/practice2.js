@@ -4,21 +4,23 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../../store/Feature/userSlice';
-import { check } from 'prettier';
 
 const AdminPage = () => {
   const [stockData, setStockData] = useState(null);
-  // const [quantity, setQuantity] = useState([]);
+  const [quantity, setQuantity] = useState([]);
+  const [changeItemNum, setChangeItemNum] = useState([]);
   const [saveQuantity, setSaveQuantity] = useState([]);
+  const [saveParameter, setSaveParameter] = useState([]);
   const [modifyModal, setModifyModal] = useState(false);
   const [modifyFailModal, setModifyFailModal] = useState(false);
-  const [paraQuantity, setParaQuantity] = useState([]);
 
   const urls = [`http://192.168.0.11:28095/creditsale/stock/request`];
   // admin id pw admin, 91658867
   // const urls = ['data/stock.json'];
 
   //'저장'을 눌렀을 때 개수가 바뀐 아이템과 그 개수를 파라미터로 붙여 요청해야한다.(saveStockFetchUrl 부분)
+  //
+
   //받아온 전체 데이터를 stockdata에 저장, 그 중에서 재고 수량을 quantity에 저장한다.
 
   useEffect(() => {
@@ -32,8 +34,7 @@ const AdminPage = () => {
           if (responseData !== undefined) {
             if (responseTitle === 'stockinfo') {
               setStockData(responseData);
-              setSaveQuantity(responseData?.data[0]?.itemstock?.map(Number));
-              setParaQuantity(responseData?.data[0]?.itemstock?.map(Number));
+              setQuantity(responseData?.data[0]?.itemstock?.map(Number));
             }
           }
         } catch (error) {
@@ -41,8 +42,9 @@ const AdminPage = () => {
         }
       }
     };
-    fetchData();
-  }, []);
+    const intervalId2 = setInterval(fetchData, 300);
+    return () => clearInterval(intervalId2);
+  }, [stockData]);
 
   // console.log('stockdata', stockData);
   // console.log('quantity', quantity);
@@ -50,8 +52,6 @@ const AdminPage = () => {
   // console.log('saveParameter', saveParameter);
 
   //input onchange 이벤트를 감지한다.
-
-  // let checkchangeindex = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   const handleQuantityChange = (index, value) => {
     const newSaveQuantity = [...saveQuantity];
@@ -63,9 +63,8 @@ const AdminPage = () => {
     const newstockdata = [...stockData?.data[0]?.itemnumber];
     newstockdata[index] = stockData?.data[0]?.itemnumber[index];
     setSaveQuantity(newSaveQuantity);
+    console.log('newstockdata', newstockdata);
   };
-
-  // console.log('checkchangeindex', checkchangeindex);
 
   //재고 수정을 위한 url 생성
   let quantityArr = [];
@@ -92,7 +91,7 @@ const AdminPage = () => {
 
   //saveDataFetchUrl : 값 저장해서 보내는 최종 url
   const saveStockFetchUrl = getfinalUrl(finalUrl);
-  console.log('마지막으로 요청보낼 url', saveStockFetchUrl);
+  // console.log('마지막으로 요청보낼 url', saveStockFetchUrl);
 
   const saveButtonFunction = () => {
     const modifyFetchUrl = async () => {
@@ -133,14 +132,14 @@ const AdminPage = () => {
 
   const handleIncreaseQuantity = index => {
     const newSaveQuantity = [...saveQuantity];
-    newSaveQuantity[index] = (parseInt(newSaveQuantity[index], 10) || 0) + 1;
+    newSaveQuantity[index] = (newSaveQuantity[index] || 0) + 1;
     setSaveQuantity(newSaveQuantity);
   };
 
   const handleDecreaseQuantity = index => {
     const newSaveQuantity = [...saveQuantity];
-    if (parseInt(newSaveQuantity[index], 10) > 0) {
-      newSaveQuantity[index] = parseInt(newSaveQuantity[index], 10) - 1;
+    if (newSaveQuantity[index] && newSaveQuantity[index] > 0) {
+      newSaveQuantity[index] -= 1;
       setSaveQuantity(newSaveQuantity);
     }
   };
@@ -190,7 +189,7 @@ const AdminPage = () => {
                         className="num-button-input increase"
                         type="number"
                         min="0"
-                        // placeholder={quantity[i]}
+                        placeholder={quantity[i]}
                         value={saveQuantity[i] || ''}
                         onChange={e => handleQuantityChange(i, e.target.value)}
                       />

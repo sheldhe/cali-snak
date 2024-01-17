@@ -4,7 +4,6 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../../store/Feature/userSlice';
-import { check } from 'prettier';
 
 const AdminPage = () => {
   const [stockData, setStockData] = useState(null);
@@ -51,8 +50,6 @@ const AdminPage = () => {
 
   //input onchange 이벤트를 감지한다.
 
-  // let checkchangeindex = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-
   const handleQuantityChange = (index, value) => {
     const newSaveQuantity = [...saveQuantity];
     // quantity 배열을 복사.
@@ -63,9 +60,8 @@ const AdminPage = () => {
     const newstockdata = [...stockData?.data[0]?.itemnumber];
     newstockdata[index] = stockData?.data[0]?.itemnumber[index];
     setSaveQuantity(newSaveQuantity);
+    console.log('newstockdata', newstockdata);
   };
-
-  // console.log('checkchangeindex', checkchangeindex);
 
   //재고 수정을 위한 url 생성
   let quantityArr = [];
