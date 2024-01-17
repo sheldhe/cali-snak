@@ -56,10 +56,7 @@ const QuantityControl = ({ allItemsData }) => {
         try {
           const response = await axios.get(urls[i]);
           const responseData = response?.data;
-          const responseStatus = responseData?.status;
-          const responseLength = responseData?.length;
           const responseTitle = responseData?.title;
-
           console.log('히스토리인포!!!', responseData, responseTitle);
 
           if (responseData !== undefined) {
@@ -75,7 +72,7 @@ const QuantityControl = ({ allItemsData }) => {
     };
     const intervalId2 = setInterval(fetchData, 300);
     return () => clearInterval(intervalId2);
-  }, [historyInfo, saveOK]);
+  }, []);
 
   const findSameIndexes = (historyInfo, allItemsData) => {
     return historyInfo?.data[0]?.itemname?.map(selecteditem => {
@@ -163,8 +160,6 @@ const QuantityControl = ({ allItemsData }) => {
         try {
           const response = await axios.get(modifyurl);
           const responseData = response?.data;
-          const responseStatus = responseData?.status;
-          const responseLength = responseData?.length;
           const responseTitle = responseData?.title;
           console.log('통신 완료!!!!!', responseData);
           if (responseTitle === 'saveok') {
@@ -206,15 +201,13 @@ const QuantityControl = ({ allItemsData }) => {
     return answer;
   };
 
-  const answer3 = totalprice(priceitemarr, quantity);
-
-  console.log('answer3', answer3);
+  const totalPriceNum = totalprice(priceitemarr, quantity);
 
   return (
     <div className="kiosk-content">
       <div className="quantity-content">
         {historyInfo?.data[0]?.itemname[0] === 'No data' ? (
-          ' '
+          <div className="no-purchase-history">구매 내역이 없습니다.</div>
         ) : (
           <>
             <div className="quantity-title-wrap">
@@ -279,7 +272,7 @@ const QuantityControl = ({ allItemsData }) => {
             </ul>
             <li className="historyinfo-result">
               <strong className="total-title">총 금액</strong>
-              <span className="total-result">{answer3}원</span>
+              <span className="total-result">{totalPriceNum}원</span>
             </li>
           </>
         )}

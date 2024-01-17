@@ -11,17 +11,17 @@ const AdminPage = () => {
   const [changeItemNum, setChangeItemNum] = useState([]);
   const [saveQuantity, setSaveQuantity] = useState([]);
   const [saveParameter, setSaveParameter] = useState([]);
-  const urls = [`http://192.168.0.11:28095/creditsale/stock/request`];
+  const [modifyModal, setModifyModal] = useState(false);
+  const [modifyFailModal, setModifyFailModal] = useState(false);
 
-  const handleQuantityChange = (index, value) => {
-    const newSaveQuantity = [...saveQuantity];
-    newSaveQuantity[index] = value;
-    const newstockdata = [...stockData?.data[0]?.itemnumber];
-    newstockdata[index] = stockData?.data[0]?.itemnumber[index];
-    setSaveQuantity(newSaveQuantity);
-    console.log('newstockdata', newstockdata);
-    // setSaveParameter({ newstockdata: newSaveQuantity });
-  };
+  const urls = [`http://192.168.0.11:28095/creditsale/stock/request`];
+  // admin id pw admin, 91658867
+  // const urls = ['data/stock.json'];
+
+  //'저장'을 눌렀을 때 개수가 바뀐 아이템과 그 개수를 파라미터로 붙여 요청해야한다.(saveStockFetchUrl 부분)
+  //
+
+  //받아온 전체 데이터를 stockdata에 저장, 그 중에서 재고 수량을 quantity에 저장한다.
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,13 +49,27 @@ const AdminPage = () => {
   // console.log('stockdata', stockData);
   // console.log('quantity', quantity);
   // console.log('saveQuantity', saveQuantity);
-
   // console.log('saveParameter', saveParameter);
 
-  // 구매 요청을 위한 url 생성
+  //input onchange 이벤트를 감지한다.
+
+  const handleQuantityChange = (index, value) => {
+    const newSaveQuantity = [...saveQuantity];
+    // quantity 배열을 복사.
+    // 클릭한 상품의 index 값을 구한다.
+    // 배열의[i] 번째를 input e.target.value 값으로 정한다.
+    // 그러면 변화된 값만 배열에 들어간다. [undefined, 300, undefined, 2] 이런식으로
+    newSaveQuantity[index] = value;
+    const newstockdata = [...stockData?.data[0]?.itemnumber];
+    newstockdata[index] = stockData?.data[0]?.itemnumber[index];
+    setSaveQuantity(newSaveQuantity);
+    console.log('newstockdata', newstockdata);
+  };
+
+  //재고 수정을 위한 url 생성
   let quantityArr = [];
   //key 값이랑 value 값을 '/key/value' 형태로 연결한다.
-  const sendArr3 = saveParameter => {
+  const makeStockParameter = saveParameter => {
     for (const [key, value] of Object.entries(saveParameter)) {
       if (value !== undefined) {
         quantityArr.push(`/${stockData?.data[0]?.itemnumber[key]}/${value}`);
@@ -63,8 +77,9 @@ const AdminPage = () => {
     }
     return quantityArr;
   };
+  const finalUrl = makeStockParameter(saveQuantity);
 
-  const finalUrl = sendArr3(saveQuantity);
+  //=>'재고seq이름 /재고수'를 파라미터로 뒤에 붙인다.
   let contacturl = 'http://192.168.0.11:28095/creditsale/stock';
 
   const getfinalUrl = finalUrl => {
@@ -74,20 +89,28 @@ const AdminPage = () => {
     return contacturl;
   };
 
-  const saveDataFetchUrl = getfinalUrl(finalUrl);
-  console.log('마지막으로 요청보낼 url', saveDataFetchUrl);
+  //saveDataFetchUrl : 값 저장해서 보내는 최종 url
+  const saveStockFetchUrl = getfinalUrl(finalUrl);
+  // console.log('마지막으로 요청보낼 url', saveStockFetchUrl);
+
   const saveButtonFunction = () => {
     const modifyFetchUrl = async () => {
       for (let i = 0; i < urls.length; i++) {
         try {
-          const response = await axios.get(saveDataFetchUrl);
+          const response = await axios.get(saveStockFetchUrl);
           const responseData = response?.data;
           const responseTitle = responseData?.title;
           console.log('통신한 답장', responseData);
           if (responseTitle === 'saveok') {
-            console.log('전송 완료!!!!!', responseData);
+            setModifyModal(true);
+            setTimeout(() => {
+              setModifyModal(false);
+            }, 2000);
           } else if (responseTitle === 'savefail') {
-            console.log('error남');
+            setModifyFailModal(true);
+            setTimeout(() => {
+              setModifyFailModal(false);
+            }, 2000);
           }
         } catch (error) {
           console.error('Error fetching data:', error);
@@ -96,8 +119,6 @@ const AdminPage = () => {
     };
     modifyFetchUrl();
   };
-
-  // console.log('sendArr3', sendArr3(saveQuantity));
 
   const changeItemType = itemtype => {
     if (itemtype === 'drink') {
@@ -113,10 +134,6 @@ const AdminPage = () => {
     const newSaveQuantity = [...saveQuantity];
     newSaveQuantity[index] = (newSaveQuantity[index] || 0) + 1;
     setSaveQuantity(newSaveQuantity);
-    // const updatedTotalPrices = [...totalPrices];
-    // updatedTotalPrices[index] =
-    //   (updatedTotalPrices[index] || 0) - historyInfo?.data[0]?.price[index];
-    // setTotalPrices(updatedTotalPrices);
   };
 
   const handleDecreaseQuantity = index => {
@@ -124,17 +141,12 @@ const AdminPage = () => {
     if (newSaveQuantity[index] && newSaveQuantity[index] > 0) {
       newSaveQuantity[index] -= 1;
       setSaveQuantity(newSaveQuantity);
-      // const updatedTotalPrices = [...totalPrices];
-      // updatedTotalPrices[index] =
-      //   (updatedTotalPrices[index] || 0) - historyInfo?.data[0]?.price[index];
-      // setTotalPrices(updatedTotalPrices);
     }
   };
+
   return (
     <div className="container-main">
       <div className="admin-content">
-        {/* <div>어드민페이</div>
-        <Link to="/">처음으로</Link> */}
         <Link to="/">
           <button className="buttonhome-admin" />
         </Link>
@@ -199,6 +211,20 @@ const AdminPage = () => {
           </div>
         </div>
       </div>
+      {modifyModal && (
+        <div className="modal-container">
+          <div className="purchase-result-modal-container">
+            <div className="purchase-finish-wrap">수정이 완료되었습니다.</div>
+          </div>
+        </div>
+      )}
+      {modifyFailModal && (
+        <div className="modal-container">
+          <div className="purchase-result-modal-container">
+            <div className="purchase-finish-wrap">수정에 실패하였습니다.</div>
+          </div>
+        </div>
+      )}{' '}
     </div>
   );
 };
