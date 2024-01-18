@@ -8,7 +8,6 @@ import { check } from 'prettier';
 
 const AdminPage = () => {
   const [stockData, setStockData] = useState(null);
-  // const [quantity, setQuantity] = useState([]);
   const [saveQuantity, setSaveQuantity] = useState([]);
   const [modifyModal, setModifyModal] = useState(false);
   const [modifyFailModal, setModifyFailModal] = useState(false);
@@ -50,55 +49,66 @@ const AdminPage = () => {
   // console.log('saveParameter', saveParameter);
 
   //input onchange 이벤트를 감지한다.
-
-  // let checkchangeindex = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-
   const handleQuantityChange = (index, value) => {
     const newSaveQuantity = [...saveQuantity];
-    // quantity 배열을 복사.
-    // 클릭한 상품의 index 값을 구한다.
-    // 배열의[i] 번째를 input e.target.value 값으로 정한다.
-    // 그러면 변화된 값만 배열에 들어간다. [undefined, 300, undefined, 2] 이런식으로
-    newSaveQuantity[index] = value;
-    const newstockdata = [...stockData?.data[0]?.itemnumber];
-    newstockdata[index] = stockData?.data[0]?.itemnumber[index];
+    const newParaQuantity = [...paraQuantity];
+
+    if (newSaveQuantity[index] !== parseInt(value, 10)) {
+      newSaveQuantity[index] = value;
+      newParaQuantity[index] = { index, value: parseInt(value, 10) || 0 };
+      setSaveQuantity(newSaveQuantity);
+      setParaQuantity(newParaQuantity);
+    }
+  };
+  const handleIncreaseQuantity = index => {
+    const newSaveQuantity = [...saveQuantity];
+    const newParaQuantity = [...paraQuantity];
+
+    newSaveQuantity[index] = (parseInt(newSaveQuantity[index], 10) || 0) + 1;
+    if (newParaQuantity[index]?.value !== newSaveQuantity[index]) {
+      newParaQuantity[index] = { index, value: newSaveQuantity[index] };
+      setParaQuantity(newParaQuantity);
+    }
     setSaveQuantity(newSaveQuantity);
   };
 
-  // console.log('checkchangeindex', checkchangeindex);
+  const handleDecreaseQuantity = index => {
+    const newSaveQuantity = [...saveQuantity];
+    const newParaQuantity = [...paraQuantity];
 
-  //재고 수정을 위한 url 생성
-  let quantityArr = [];
-  //key 값이랑 value 값을 '/key/value' 형태로 연결한다.
-  const makeStockParameter = saveParameter => {
-    for (const [key, value] of Object.entries(saveParameter)) {
-      if (value !== undefined) {
-        quantityArr.push(`/${stockData?.data[0]?.itemnumber[key]}/${value}`);
+    //10진법으로 바꿨을때 존재하면
+    //10진법으로 바꾼 것
+    if (parseInt(newSaveQuantity[index], 10) > 0) {
+      newSaveQuantity[index] = parseInt(newSaveQuantity[index], 10) - 1;
+      if (newParaQuantity[index]?.value !== newSaveQuantity[index]) {
+        newParaQuantity[index] = { index, value: newSaveQuantity[index] };
+        setParaQuantity(newParaQuantity);
       }
+      setSaveQuantity(newSaveQuantity);
     }
-    return quantityArr;
   };
-  const finalUrl = makeStockParameter(saveQuantity);
 
+  const filteredParaQuantity = paraQuantity.filter(
+    item => typeof item === 'object' && item !== null,
+  );
+
+  const formattedParaQuantity = filteredParaQuantity.reduce((acc, curr) => {
+    return `${acc}${stockData?.data[0]?.itemnumber[curr.index]}/${curr.value}/`;
+  }, '');
+
+  // ${stockData?.data[0]?.itemnumber[key]}
+  //getfinalUrl : 값 저장해서 보내는 최종 url
   //=>'재고seq이름 /재고수'를 파라미터로 뒤에 붙인다.
-  let contacturl = 'http://192.168.0.11:28095/creditsale/stock';
+  let contacturl = 'http://192.168.0.11:28095/creditsale/stock/';
+  const getfinalUrl = contacturl + formattedParaQuantity;
 
-  const getfinalUrl = finalUrl => {
-    for (let i = 0; i < finalUrl.length; i++) {
-      contacturl += finalUrl[i];
-    }
-    return contacturl;
-  };
-
-  //saveDataFetchUrl : 값 저장해서 보내는 최종 url
-  const saveStockFetchUrl = getfinalUrl(finalUrl);
-  console.log('마지막으로 요청보낼 url', saveStockFetchUrl);
+  console.log('getfinalUrl2', getfinalUrl);
 
   const saveButtonFunction = () => {
     const modifyFetchUrl = async () => {
       for (let i = 0; i < urls.length; i++) {
         try {
-          const response = await axios.get(saveStockFetchUrl);
+          const response = await axios.get(getfinalUrl);
           const responseData = response?.data;
           const responseTitle = responseData?.title;
           console.log('통신한 답장', responseData);
@@ -129,20 +139,6 @@ const AdminPage = () => {
     } else if (itemtype === 'snack') {
       return '과자';
     } else return '기타';
-  };
-
-  const handleIncreaseQuantity = index => {
-    const newSaveQuantity = [...saveQuantity];
-    newSaveQuantity[index] = (parseInt(newSaveQuantity[index], 10) || 0) + 1;
-    setSaveQuantity(newSaveQuantity);
-  };
-
-  const handleDecreaseQuantity = index => {
-    const newSaveQuantity = [...saveQuantity];
-    if (parseInt(newSaveQuantity[index], 10) > 0) {
-      newSaveQuantity[index] = parseInt(newSaveQuantity[index], 10) - 1;
-      setSaveQuantity(newSaveQuantity);
-    }
   };
 
   return (
@@ -190,8 +186,7 @@ const AdminPage = () => {
                         className="num-button-input increase"
                         type="number"
                         min="0"
-                        // placeholder={quantity[i]}
-                        value={saveQuantity[i] || ''}
+                        value={saveQuantity[i] || 0}
                         onChange={e => handleQuantityChange(i, e.target.value)}
                       />
                       <button
@@ -215,14 +210,30 @@ const AdminPage = () => {
       {modifyModal && (
         <div className="modal-container">
           <div className="purchase-result-modal-container">
-            <div className="purchase-finish-wrap">수정이 완료되었습니다.</div>
+            <div className="purchase-finish-wrap2 modify-finish">
+              수정이 완료되었습니다.
+              <button
+                className="purchase-finish-close-button"
+                onClick={() => setModifyModal(false)}
+              >
+                닫기
+              </button>
+            </div>
           </div>
         </div>
       )}
       {modifyFailModal && (
         <div className="modal-container">
           <div className="purchase-result-modal-container">
-            <div className="purchase-finish-wrap">수정에 실패하였습니다.</div>
+            <div className="purchase-finish-wrap2 modify-fail">
+              수정에 실패하였습니다.
+              <button
+                className="purchase-finish-close-button"
+                onClick={() => setModifyFailModal(false)}
+              >
+                닫기
+              </button>
+            </div>
           </div>
         </div>
       )}{' '}

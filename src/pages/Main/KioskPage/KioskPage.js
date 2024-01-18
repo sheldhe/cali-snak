@@ -15,14 +15,15 @@ const KioskPage = ({ setStep, allItemsData }) => {
   const [selectedItems2, setSelectedItems2] = useState([]);
   const [matchingIndexes2, setMatchingIndexes2] = useState([]);
   const [quantity, setQuantity] = useState([]);
-  const [timer, setTimer] = useState(30000);
+  const [timer, setTimer] = useState(120);
   const [numErrorVisible, setNumErrorVisible] = useState(false);
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false);
   const [purchaseFinishVisble, setPurchaseFinishVisible] = useState(false);
+  const [purchaseFinishFailVisible, setPurchaseFinishFailVisible] =
+    useState(false);
 
   console.log(allItemsData, 'allItemsData');
 
-  const navigate = useNavigate();
   const modalBackground = useRef();
   const modalBackground2 = useRef();
 
@@ -34,7 +35,7 @@ const KioskPage = ({ setStep, allItemsData }) => {
   //이벤트 발생시에만 타이머를 줄인다.
   useEffect(() => {
     // if (selectedItems2) {
-    setTimer(300000);
+    setTimer(120);
     // }
     const intervalId = setInterval(() => {
       setTimer(prevTimer => {
@@ -43,6 +44,7 @@ const KioskPage = ({ setStep, allItemsData }) => {
         } else {
           console.log('타이머 끝났어요!');
           setStep('readypage');
+          waitFetchUrl();
           clearInterval(intervalId);
           return 0;
         }
@@ -78,7 +80,18 @@ const KioskPage = ({ setStep, allItemsData }) => {
         ...quantity,
         [itemcode]: quantity[itemcode] + 1,
       };
-      setQuantity(updatedQuantity);
+      const selectedItemCode = selectedItems2[index];
+      const currentQuantity = quantity[selectedItemCode] || 0;
+      const indexNum = matchingIndexes2[index];
+      const remainQuantity = Number(
+        allItemsData?.data[0]?.item.itemstock[indexNum],
+      );
+      if (remainQuantity <= currentQuantity) {
+        setNumErrorVisible(true);
+        console.log('모달 보여요');
+      } else {
+        setQuantity(updatedQuantity);
+      }
     }
     setSelectedItems2(updatedSelectedItems);
   };
@@ -208,13 +221,21 @@ const KioskPage = ({ setStep, allItemsData }) => {
   //구매 요청
   const purchaseUrl = makePurchaseUrlArr(quantityArr);
   const purchaseEnd = () => {
-    purchaseFetchUrl();
     setPurchaseModalVisible(false);
     setPurchaseFinishVisible(true);
     setTimeout(() => {
       setPurchaseFinishVisible(false);
       setStep('readypage');
-    }, 2500);
+    }, 1500);
+  };
+
+  const purchaseFailEnd = () => {
+    setPurchaseModalVisible(false);
+    setPurchaseFinishFailVisible(true);
+    setTimeout(() => {
+      setPurchaseFinishFailVisible(false);
+      setStep('readypage');
+    }, 1500);
   };
 
   const purchaseFetchUrl = async () => {
@@ -222,15 +243,12 @@ const KioskPage = ({ setStep, allItemsData }) => {
       try {
         const response = await axios.get(purchaseUrl);
         const responseData = response?.data;
-        const responseStatus = responseData?.status;
-        const responseLength = responseData?.length;
         const responseTitle = responseData?.title;
-
-        if (i === 0) {
-          console.log('구매1', responseData);
-        } else if (i === 1) {
-          console.log('구매2', responseData);
-          console.log('구매모달 닫기 완료');
+        console.log('구매하고 데이터', responseData);
+        if (responseTitle === 'saveok') {
+          purchaseEnd();
+        } else if (responseTitle === 'savefail') {
+          purchaseFailEnd();
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -340,7 +358,14 @@ const KioskPage = ({ setStep, allItemsData }) => {
               >
                 X
               </button>
-              <button className="buttonhome" onClick={() => waitFetchUrl()} />
+              <button
+                className="buttonhome"
+                style={{
+                  display:
+                    content === 'quantitycontrol' ? 'none' : 'inline-block',
+                }}
+                onClick={() => waitFetchUrl()}
+              />
             </div>
           </div>
           {content === 'quantitycontrol' && (
@@ -616,7 +641,7 @@ const KioskPage = ({ setStep, allItemsData }) => {
         </div>
       </div>
       {numErrorVisible && (
-        <div className="modal-container ">
+        <div className="modal-container">
           <div
             className="num-errormodal-wrap"
             ref={modalBackground}
@@ -701,7 +726,7 @@ const KioskPage = ({ setStep, allItemsData }) => {
               </div>
               <button
                 className="purchase-button"
-                onClick={() => purchaseEnd()}
+                onClick={() => purchaseFetchUrl()}
                 disabled={selectedItems2.length > 0 ? false : true}
               >
                 구매하기
@@ -713,7 +738,19 @@ const KioskPage = ({ setStep, allItemsData }) => {
       {purchaseFinishVisble && (
         <div className="modal-container modify-success">
           <div className="purchase-result-modal-container">
-            <div className="purchase-finish-wrap">구매가 완료되었습니다.</div>
+            <div className="purchase-finish-wrap2 purchase-finsh">
+              구매가 완료되었습니다.
+            </div>
+          </div>
+        </div>
+      )}
+
+      {purchaseFinishFailVisible && (
+        <div className="modal-container modify-success">
+          <div className="purchase-result-modal-container">
+            <div className="purchase-finish-wrap2 purchase-finsh">
+              구매에 실패하였습니다.
+            </div>
           </div>
         </div>
       )}

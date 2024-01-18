@@ -68,6 +68,12 @@ const Login = () => {
           value={userValue.password}
         />
         <div className="login-alert">{loginAlert}</div>
+        <Link to="/">
+          {' '}
+          <button className="login-button" style={{ marginRight: '1vh' }}>
+            처음으로
+          </button>
+        </Link>
         <button className="login-button" type="submit">
           로그인
         </button>

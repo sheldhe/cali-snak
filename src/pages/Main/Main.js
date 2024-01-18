@@ -57,8 +57,13 @@ const Main = () => {
       {norentalModal && (
         <div className="modal-container">
           <div className="purchase-result-modal-container">
-            <div className="purchase-finish-wrap">
-              등록되지 않은 태그입니다.
+            <div className="purchase-finish-wrap no-rental-id">
+              <button
+                className="purchase-finish-close-button"
+                onClick={() => {
+                  setNoRentalModal(false);
+                }}
+              />
             </div>
           </div>
         </div>

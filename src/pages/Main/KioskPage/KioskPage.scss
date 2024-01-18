@@ -8,18 +8,6 @@
   justify-content: center;
   align-items: center;
   background: rgba(40, 40, 40, 0.9);
-
-  &.modify-success {
-    background: url('../../../assets/images/Modal/kiosk_credit_modal_save.png')
-      no-repeat center;
-    background-size: 100% 100%;
-  }
-
-  &.modify-fail {
-    background: url('../../../assets/images/Modal/kiosk_credit_modal_normal_processing.png')
-      no-repeat center;
-    background-size: 100% 100%;
-  }
 }
 
 .num-errormodal-wrap {
@@ -250,6 +238,47 @@
   right: 10%;
   transform: translate(-50%, -50%);
   background-color: white;
+  padding-bottom: 4vh;
+  &.modify-success {
+    background: url('../../../assets/images/Modal/kiosk_credit_modal_save.png')
+      no-repeat center;
+    background-size: contain;
+    text-align: center;
+  }
+
+  &.modify-fail {
+    background: url('../../../assets/images/Modal/kiosk_credit_modal_normal_processing.png')
+      no-repeat center;
+    background-size: contain;
+  }
+
+  &.delete-success {
+    background: url('../../../assets/images/Modal/kiosk_credit_modal_blank.png')
+      no-repeat center;
+    background-size: contain;
+  }
+
+  &.delete-fail {
+    background: url('../../../assets/images/Modal/kiosk_credit_modal_blank.png')
+      no-repeat center;
+    background-size: contain;
+  }
+
+  &.no-rental-id {
+    background: url('../../../assets/images/Modal/kiosk_credit_modal_tag_strap.png')
+      no-repeat center;
+    background-size: contain;
+  }
+
+  .purchase-finish-close-button {
+    background: url('../../../assets/images/Modal/kiosk_credit_modal_check_bottom.png')
+      no-repeat center;
+    background-size: 100% 100%;
+    width: 15vh;
+    height: 5vh;
+    color: transparent;
+    margin-top: 20vh;
+  }
 }
 
 .buttonhome {
@@ -271,4 +300,63 @@
   color: transparent;
   line-height: 3.5vh;
   width: 3.5vh;
+}
+
+.purchase-finish-wrap2 {
+  width: 80vh;
+  height: 50vh;
+  font-family: 'Pretendard-Medium';
+  color: black;
+  font-size: 5vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 55%;
+  right: 10%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding-bottom: 4vh;
+
+  &.delete-success {
+    background: url('../../../assets/images/Modal/kiosk_credit_modal_blank.png')
+      no-repeat center;
+    background-size: contain;
+  }
+
+  &.delete-fail {
+    background: url('../../../assets/images/Modal/kiosk_credit_modal_blank.png')
+      no-repeat center;
+    background-size: contain;
+  }
+
+  &.purchase-finsh {
+    background: url('../../../assets/images/Modal/kiosk_credit_modal_blank.png')
+      no-repeat center;
+    background-size: contain;
+  }
+
+  &.modify-finish {
+    background: url('../../../assets/images/Modal/kiosk_credit_modal_blank.png')
+      no-repeat center;
+    background-size: contain;
+  }
+
+  &.modify-fail {
+    background: url('../../../assets/images/Modal/kiosk_credit_modal_blank.png')
+      no-repeat center;
+    background-size: contain;
+  }
+
+  .purchase-finish-close-button {
+    background: url('../../../assets/images/Modal/kiosk_credit_modal_check_bottom.png')
+      no-repeat center;
+    background-size: 100% 100%;
+    width: 15vh;
+    height: 5vh;
+    color: transparent;
+    margin-top: 6vh;
+  }
 }

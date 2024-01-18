@@ -3,6 +3,7 @@ import './KioskLeft.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import liBoxImg from '../../../../assets/images/kiosk_credit_icon_in_left_box.png';
 import memberLevelImg from '../../../../assets/images/kiosk_credit_badge_icon.png';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const KioskLeft = ({ allItemsData }) => {
   const [modifyModal, setModifyModal] = useState(false);
@@ -10,7 +11,18 @@ const KioskLeft = ({ allItemsData }) => {
     <div className="kiosk-left-wrap">
       <div>
         <div className="member-tag">
-          <img className="member-level" src={memberLevelImg} alt="멤버 레벨" />
+          <motion.img
+            className="member-level"
+            src={memberLevelImg}
+            alt="멤버 레벨"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 1.2,
+              delay: 0.3,
+              ease: 'easeInOut',
+            }}
+          />
         </div>
         <div className="member-name-wrap">
           <div className="hello-message">Hi, Tager!</div>
