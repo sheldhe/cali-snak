@@ -1,70 +1,126 @@
-# Getting Started with Create React App
+[캘리 스낵 키오스크]
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+실행 방법: npm run start
 
-## Available Scripts
+- front -> rest
 
-In the project directory, you can run:
+1. 요청메세지 : creditsale/sell/request
+2. 구매요청 : creditsale/sell/아이템번호1/판매수량1/아이템번호2/판매수량2/아이템번호3/판매수량3..
+3. 재고요청 : creditsale/stock/request
+4. 재고변경 : creditsale/stock/아이템번호1/재고수량1/아이템번호2/재고수량2/아이템번호3/재고수량3..
+5. 로그인확인 : creditsale/login/이름/비밀번호
+6. 구매내역요청 : creditsale/history/request
+7. 구매내역삭제 : creditsale/history/delete/seq/수량(기존)
+8. 구매내역수정 : creditsale/history/update/seq/수량(변경)
+9. 대기전환 : creditsale/wait
 
-### `npm start`
+- rest -> front
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+0. 로그인확인 응답
+   {
+   "status":"success",
+   "title": "login",
+   "data":
+   [
+   {
+   "result" : "true" //false -> "아이디, 패스워드가 알치하지 않습니다."
+   }
+   ]
+   }
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. 데이터 변화 없을때
+   {
+   "status":"success",
+   "title": "nochange",  
+    "data":
+   [
+   ]
+   }
 
-### `npm test`
+2. 사용자 정보
+   {
+   "status":"success",
+   "title": "userinfo",
+   "data":
+   [
+   {
+   "username" : "홍길동",
+   "tagvalue" : "0101234567",
+   "parentname" : "홍길동아부지",
+   "phonenumber" : "0101234567",
+   "itemtype" : ["coffee", "drink", "snack"],  
+    "itemnumber" : ["1", "2", "3"],
+   "itemname" : ["뽀로로 딸기", "뽀로로 밀크", "파워오투 아이스베리"],
+   "itemstock" : ["10", "5", "0"],
+   "itemprice" : ["2000", "2000", "3000"]
+   }
+   ]
+   }
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. 재고 정보
+   {
+   "status":"success",
+   "title": "stockinfo",
+   "data":
+   [
+   {
+   "itemtype" : ["coffee", "drink", "snack"],  
+    "itemnumber" : ["1", "2", "3"],
+   "itemname" : ["뽀로로 딸기", "뽀로로 밀크", "파워오투 아이스베리"],
+   "itemstock" : ["10", "5", "0"],
+   "itemprice" : ["2000", "2000", "3000"]
+   }
+   ]
+   }
 
-### `npm run build`
+4. 구매 정보
+   {
+   "status":"success",
+   "title": "historyinfo",
+   "data":
+   [
+   {
+   "seq" : ["81", "82", "85"],
+   "regdate" : ["hhmmss", "hhmmss", "hhmmss"],  
+    "itemnumber" : ["0001", "0002", "0003"],
+   "itemname" : ["뽀로로 딸기", "뽀로로 밀크", "파워오투 아이스베리"],
+   "itemquentity" : ["10", "5", "0"]
+   }
+   ]
+   }
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+5. 저장 성공
+   {
+   "status":"success",
+   "title": "saveok",
+   "data":
+   [
+   ]
+   }
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+$ 에러처리 6) 저장처리 실패 -> "정상 처리되지 않았습니다. 다시 시도해 주세요."
+{
+"status":"success",
+"title": "savefail",  
+ "data":
+[
+]
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+7. 유저데이터가 없을때 -> "정상 발급된 팔지인지 확인해 주세요"
+   {
+   "status":"success",
+   "title": "norentalid",  
+    "data":
+   [
+   ]
+   }
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+8. 대기상태
+   {
+   "status":"success",
+   "title": "wait",  
+    "data":
+   [
+   ]
+   }
