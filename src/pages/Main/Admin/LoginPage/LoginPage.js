@@ -22,7 +22,7 @@ const Login = () => {
   const handleLogin = e => {
     e.preventDefault();
     fetch(
-      `http://192.168.0.11:28095/creditsale/login/${userValue.username}/${userValue.password}`,
+      `http://192.168.0.1:28095/creditsale/login/${userValue.username}/${userValue.password}`,
     )
       .then(response => response.json())
       .then(data => {

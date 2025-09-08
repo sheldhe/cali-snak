@@ -15,7 +15,7 @@ const QuantityControl = ({ allItemsData }) => {
   const [checkquantity, setCheckQuantity] = useState([]);
   const [totalquantity, setTotalQuantity] = useState(null);
 
-  const urls = [`http://192.168.0.11:28095/creditsale/history/request`];
+  const urls = [`http://192.168.0.1:28095/creditsale/history/request`];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,7 +101,7 @@ const QuantityControl = ({ allItemsData }) => {
     const modifiedQuantity = checkquantity[index];
 
     const modifyurl =
-      'http://192.168.0.11:28095/creditsale/history/update/' +
+      'http://192.168.0.1:28095/creditsale/history/update/' +
       seq +
       '/' +
       modifiedQuantity;
@@ -136,7 +136,7 @@ const QuantityControl = ({ allItemsData }) => {
 
   //삭제 기능
   const handleDelete = (clickseq, clickitemnum) => {
-    let url = `http://192.168.0.11:28095/creditsale/history/delete`;
+    let url = `http://192.168.0.1:28095/creditsale/history/delete`;
     let newUrl = url + '/' + clickseq + '/' + clickitemnum;
     console.log('삭제 요청newUrl!!!!!!!', newUrl);
     const deleteFetchUrl = async () => {

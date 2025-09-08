@@ -13,7 +13,7 @@ const AdminPage = () => {
   const [modifyFailModal, setModifyFailModal] = useState(false);
   const [paraQuantity, setParaQuantity] = useState([]);
 
-  const urls = [`http://192.168.0.11:28095/creditsale/stock/request`];
+  const urls = [`http://192.168.0.1:28095/creditsale/stock/request`];
   // admin id pw admin, 91658867
   // const urls = ['data/stock.json'];
 
@@ -99,7 +99,7 @@ const AdminPage = () => {
   // ${stockData?.data[0]?.itemnumber[key]}
   //getfinalUrl : 값 저장해서 보내는 최종 url
   //=>'재고seq이름 /재고수'를 파라미터로 뒤에 붙인다.
-  let contacturl = 'http://192.168.0.11:28095/creditsale/stock/';
+  let contacturl = 'http://192.168.0.1:28095/creditsale/stock/';
   const getfinalUrl = contacturl + formattedParaQuantity;
 
   console.log('getfinalUrl2', getfinalUrl);

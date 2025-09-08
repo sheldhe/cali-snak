@@ -13,7 +13,7 @@ const Main = () => {
 
   console.log(step, '현재 화면 페이지');
 
-  const urls = [`http://192.168.0.11:28095/creditsale/sell/request`];
+  const urls = [`http://192.168.0.1:28095/creditsale/sell/request`];
 
   useEffect(() => {
     const fetchData = async () => {

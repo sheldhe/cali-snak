@@ -56,7 +56,7 @@ const KioskPage = ({ setStep, allItemsData }) => {
     };
   }, [selectedItems2, content, quantity]);
 
-  const urls = [`http://192.168.0.11:28095/creditsale/sell/request`];
+  const urls = [`http://192.168.0.1:28095/creditsale/sell/request`];
   // // const urls = [`data/data.json`];
 
   // 1. 구매하고 싶은 아이템을 클릭한다.
@@ -208,7 +208,7 @@ const KioskPage = ({ setStep, allItemsData }) => {
 
   //연결해서 만든 arr를 요청할 url 뒤에 붙여 새로운 url을 생성한다.
   const makePurchaseUrlArr = arr => {
-    let url = `http://192.168.0.11:28095/creditsale/sell`;
+    let url = `http://192.168.0.1:28095/creditsale/sell`;
     for (let i = 0; i < arr.length; i++) {
       url += arr[i];
     }
@@ -262,7 +262,7 @@ const KioskPage = ({ setStep, allItemsData }) => {
   };
   const digitNumber = calculateTotalPrice().toLocaleString('ko-KR', option);
 
-  const waitUrl = `http://192.168.0.11:28095/creditsale/wait`;
+  const waitUrl = `http://192.168.0.1:28095/creditsale/wait`;
   const waitFetchUrl = async () => {
     for (let i = 0; i < urls.length; i++) {
       try {
